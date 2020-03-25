@@ -4,3 +4,9 @@
   font-size: 2rem;
   margin-top: 2vh;
 }
+
+.form-container {
+  width: 400px;
+  margin: auto;
+  margin-top: 5vh;
+}
