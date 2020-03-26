@@ -4,6 +4,8 @@ import { useMutation } from '@apollo/react-hooks';
 
 import { FETCH_POSTS_QUERY } from '../util/graphql';
 
+import PopupElement from '../util/PopupElement';
+
 // Semantic UI
 import { Button, Confirm, Icon } from 'semantic-ui-react';
 
@@ -15,7 +17,7 @@ function DeleteButton ({ postId, commentId, callback }) {
   const [deletePostOrMutation] = useMutation(mutation, {
     update (proxy) {
       setConfirmOpen(false);
-      if (!commentId){
+      if (!commentId) {
         const data = proxy.readQuery({
           query: FETCH_POSTS_QUERY
         });
@@ -32,14 +34,16 @@ function DeleteButton ({ postId, commentId, callback }) {
 
   return (
     <>
-      <Button
-        as='div'
-        color='red'
-        floated='right'
-        onClick={ () => setConfirmOpen(true) }
-      >
-        <Icon name='trash' style={ { margin: 0 } } />
-      </Button>
+      <PopupElement content={ commentId ? 'Delete comment' : 'Delete a post' } >
+        <Button
+          as='div'
+          color='red'
+          floated='right'
+          onClick={ () => setConfirmOpen(true) }
+        >
+          <Icon name='trash' style={ { margin: 0 } } />
+        </Button>
+      </PopupElement> 
       <Confirm
         open={ confirmOpen }
         onCancel={ () => setConfirmOpen(false) }

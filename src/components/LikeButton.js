@@ -6,6 +6,9 @@ import gql from 'graphql-tag';
 // Semantic UI
 import { Icon, Label, Button } from 'semantic-ui-react';
 
+// Components
+import PopupElement from '../util/PopupElement';
+
 
 function LikeButton ({ user, post: { id, likeCount, likes } }) {
   const [liked, setLiked] = useState(false);
@@ -14,7 +17,7 @@ function LikeButton ({ user, post: { id, likeCount, likes } }) {
     if (user && likes.find(like => like.username === user.username)) {
       setLiked(true);
     } else setLiked(false);
-    }, [user, likes]);
+  }, [user, likes]);
 
   const [likePost] = useMutation(LIKE_POST_MUTATION, {
     variables: { postId: id }
@@ -37,12 +40,14 @@ function LikeButton ({ user, post: { id, likeCount, likes } }) {
     )
 
   return (
-    <Button as='div' labelPosition='right' onClick={ likePost }>
-      { likeButton }
-      <Label basic color='teal' pointing='left'>
-        { likeCount }
-      </Label>
-    </Button>
+    <PopupElement content={ liked ? 'Unlike this post' : 'Like this post' } >
+      <Button as='div' labelPosition='right' onClick={ likePost }>
+        { likeButton }
+        <Label basic color='teal' pointing='left'>
+          { likeCount }
+        </Label>
+      </Button>
+    </PopupElement>
   );
 }
 
